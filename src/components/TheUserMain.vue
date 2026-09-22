@@ -6,7 +6,7 @@
                 <p class="date">{{ today }}</p>
             </div>
             <div class="bell">
-                <img src="../assets/notificatio.png" alt="notifications">
+                <img src="../assets/notification.png" alt="notifications">
             </div>
         </div>
 

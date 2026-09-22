@@ -184,14 +184,13 @@ import Base from '../assets/book-open.png';
 import Documents from '../assets/document.png';
 import Invoices from '../assets/invoices.png';
 import Timesheet from '../assets/timesheet.png';
-import Team from '../assets/team.png';
+import Team from '../assets/user-search.png';
 import Settings from '../assets/settings.png';
 import Help from '../assets/help.png';
 import Notifications from '../assets/notification.png'
 import Your from '../assets/profile.png'
-import Search from '../assets/user-search.png'
+import Search from '../assets/search.png'
 
-// какой пункт подсвечен активным (по умолчанию — Contacts, как на скрине)
 const activeItem = ref('Contacts');
 function setActive(name) {
     activeItem.value = name;

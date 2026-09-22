@@ -3,7 +3,7 @@ import AdminView from '../views/AdminView.vue';
 import UserView from '../views/UserView.vue';
 const routes = [
     {
-        path: '/admin',
+        path: '/',
         name: 'admin',
         component: AdminView,
     },
