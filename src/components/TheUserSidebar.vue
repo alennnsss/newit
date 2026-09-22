@@ -5,8 +5,8 @@
                 <div class="logo">
                     <span class="logo-black">Knew</span><span class="logo-purple">IT</span>
                 </div>
-                
-            </div>    
+
+            </div>
             <button class="menu-toggle" @click="menuOpen = !menuOpen">
                 <span></span>
                 <span></span>
@@ -19,8 +19,19 @@
             <div>
                 <div class="profile-name">Talgat</div>
                 <div class="profile-name">Baytukeshov</div>
-                <div class="profile-role">Преподаватель</div>
+                <div class="profile-role">{{ t('teacherSidebar.role') }}</div>
             </div>
+        </div>
+
+        <div class="lang-switch">
+            <button
+                v-for="l in supportedLocales"
+                :key="l.code"
+                :class="{ active: locale === l.code }"
+                @click="setLocale(l.code)"
+            >
+                {{ l.code.toUpperCase() }}
+            </button>
         </div>
 
         <nav class="nav" :class="{ 'nav-open': menuOpen }">
@@ -32,7 +43,7 @@
                     :class="{ active: activeItem === item.name }"
                     @click="setActive(item.name)"
                 >
-                    {{ item.name }}
+                    {{ item.label }}
                 </div>
             </div>
 
@@ -44,7 +55,7 @@
                     :class="{ active: activeItem === item.name }"
                     @click="setActive(item.name)"
                 >
-                    {{ item.name }}
+                    {{ item.label }}
                 </div>
             </div>
 
@@ -56,7 +67,7 @@
                     :class="{ active: activeItem === item.name }"
                     @click="setActive(item.name)"
                 >
-                    {{ item.name }}
+                    {{ item.label }}
                 </div>
             </div>
         </nav>
@@ -64,35 +75,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { setLocale, supportedLocales } from '../locales/i18n'
 
-const activeItem = ref('Главная')
+const { t, locale } = useI18n()
+const activeItem = ref('main')
 const menuOpen = ref(false)
 function setActive(name) {
     activeItem.value = name
     menuOpen.value = false
 }
 
-const navGroups = {
+const navGroups = computed(() => ({
     main: [
-        { id: 1, name: 'Главная' },
-        { id: 2, name: 'Расписание' },
-        { id: 3, name: 'Курсы' },
-        { id: 4, name: 'Все группы' },
-        { id: 5, name: 'Студенты' },
-        { id: 6, name: 'Блог' }
+        { id: 1, name: 'main', label: t('teacherSidebar.nav.main') },
+        { id: 2, name: 'schedule', label: t('teacherSidebar.nav.schedule') },
+        { id: 3, name: 'courses', label: t('teacherSidebar.nav.courses') },
+        { id: 4, name: 'allGroups', label: t('teacherSidebar.nav.allGroups') },
+        { id: 5, name: 'students', label: t('teacherSidebar.nav.students') },
+        { id: 6, name: 'blog', label: t('teacherSidebar.nav.blog') }
     ],
     work: [
-        { id: 7, name: 'Домашние задания' },
-        { id: 8, name: 'Сертификаты' },
-        { id: 9, name: 'Календарь' }
+        { id: 7, name: 'homework', label: t('teacherSidebar.nav.homework') },
+        { id: 8, name: 'certificates', label: t('teacherSidebar.nav.certificates') },
+        { id: 9, name: 'calendar', label: t('teacherSidebar.nav.calendar') }
     ],
     admin: [
-        { id: 10, name: 'CRM' },
-        { id: 11, name: 'Сотрудники' },
-        { id: 12, name: 'Гайд' }
+        { id: 10, name: 'crm', label: t('teacherSidebar.nav.crm') },
+        { id: 11, name: 'employees', label: t('teacherSidebar.nav.employees') },
+        { id: 12, name: 'guide', label: t('teacherSidebar.nav.guide') }
     ]
-}
+}))
 </script>
 
 <style scoped>
@@ -181,6 +195,29 @@ aside {
     font-size: 12px;
     color: var(--text-secondary);
     margin-top: 4px;
+}
+
+.lang-switch {
+    display: flex;
+    gap: 6px;
+}
+
+.lang-switch button {
+    flex: 1;
+    border: 1px solid #ebebf0;
+    background-color: #fff;
+    color: #4a4a55;
+    border-radius: 8px;
+    padding: 6px 0;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lang-switch button.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
 }
 
 .nav {

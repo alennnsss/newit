@@ -3,19 +3,19 @@
         <div class="header">
             <div class="search">
                 <div class="intro">
-                    <p>Contacts</p>
-                    <span>{{ contacts.length }} people</span>
+                    <p>{{ t('contacts.title') }}</p>
+                    <span>{{ t('contacts.peopleCount', { count: contacts.length }) }}</span>
                 </div>
                 <div class="search-input">
-                    <input type="text" placeholder="Search for contacts" class='input'>
+                    <input type="text" :placeholder="t('contacts.searchPlaceholder')" class='input'>
                     <button class="button">
-                        <img src="../assets/search.png" alt="search" class="search-image">
+                        <img src="../assets/search.png" :alt="t('sidebar.links.search')" class="search-image">
                     </button>
                 </div>
             </div>
             <div class="button-box">
-                <button class="inactive">Show inactive</button>
-                <button class="contact">+  New contact</button>
+                <button class="inactive">{{ t('contacts.showInactive') }}</button>
+                <button class="contact">{{ t('contacts.newContact') }}</button>
             </div>
         </div>
         <div class="contacts">
@@ -23,12 +23,12 @@
                 <Select :v-model="selectedStatus"
                     :options="status"
                     optionLabel="name"
-                    placeholder="Select a status"
+                    :placeholder="t('contacts.statusPlaceholder')"
                 />
-                <button class="filter">+ Filter</button>
+                <button class="filter">{{ t('contacts.filter') }}</button>
             </div>
             <div class="most">
-                <span>Most recently added first</span>
+                <span>{{ t('contacts.sortLabel') }}</span>
             </div>
         </div>
        <div class="contacts-page">
@@ -36,12 +36,12 @@
         <table class="contacts-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th class="hide-sm">Account</th>
-                <th class="hide-sm">Reachable on</th>
-                <th class="hide-md">Email</th>
-                <th class="hide-md">Owner</th>
-                <th class="hide-md">Updated</th>
+                <th>{{ t('contacts.table.name') }}</th>
+                <th class="hide-sm">{{ t('contacts.table.account') }}</th>
+                <th class="hide-sm">{{ t('contacts.table.reachableOn') }}</th>
+                <th class="hide-md">{{ t('contacts.table.email') }}</th>
+                <th class="hide-md">{{ t('contacts.table.owner') }}</th>
+                <th class="hide-md">{{ t('contacts.table.updated') }}</th>
               </tr>
             </thead>
 
@@ -75,7 +75,7 @@
                         </span>
 
                         <span v-else class="muted">
-                            No phone
+                            {{ t('contacts.noPhone') }}
                         </span>
                     </td>
 
@@ -85,13 +85,13 @@
                         </span>
 
                         <span v-else class="muted">
-                            No email
+                            {{ t('contacts.noEmail') }}
                         </span>
                     </td>
 
                     <td class="hide-md">
                         <span v-if="contact.owner === 'Unassigned'" class="badge-warning">
-                            Unassigned
+                            {{ t('contacts.unassigned') }}
                         </span>
                         <span v-else>
                             {{ contact.owner }}
@@ -107,20 +107,24 @@
         </div>
     </div>
     <div class="showing">
-        <span>Showing {{ contacts.length }} of {{ contacts.length }}</span>
+        <span>{{ t('contacts.showing', { shown: contacts.length, total: contacts.length }) }}</span>
     </div>
     </main>
 </template>
 
 <script setup>
 import Select from 'primevue/select';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const selectedStatus = ref(null)
-const status = [
-    { name: 'Active contacts', code: 'AC' },
-    { name: 'Disactive contacts', code: 'DS' }
-]
+
+const status = computed(() => [
+    { name: t('contacts.status.active'), code: 'AC' },
+    { name: t('contacts.status.inactive'), code: 'DS' }
+])
 const contacts = [
     {
         id: 1,

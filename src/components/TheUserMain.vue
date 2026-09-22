@@ -2,30 +2,30 @@
     <main>
         <div class="top-row">
             <div>
-                <h1>Привет, {{ user.name }}</h1>
+                <h1>{{ t('dashboard.greeting', { name: user.name }) }}</h1>
                 <p class="date">{{ today }}</p>
             </div>
             <div class="bell">
-                <img src="../assets/notification.png" alt="notifications">
+                <img src="../assets/notification.png" :alt="t('sidebar.links.notification')">
             </div>
         </div>
 
         <div class="hero-row">
             <div class="lesson-card">
-                <span class="lesson-label">Ближайший урок</span>
+                <span class="lesson-label">{{ t('dashboard.nextLesson.label') }}</span>
                 <div class="lesson-time">
                     {{ nextLesson.day }} {{ nextLesson.start }}
-                    <span class="lesson-end">до {{ nextLesson.end }}</span>
+                    <span class="lesson-end">{{ t('dashboard.nextLesson.until', { time: nextLesson.end }) }}</span>
                 </div>
-                <div class="lesson-group">Группа</div>
+                <div class="lesson-group">{{ t('dashboard.nextLesson.group') }}</div>
                 <div class="lesson-topic">{{ nextLesson.topic }}</div>
 
                 <div class="lesson-meta">
                     <span class="badge-offline">
                         <img src="../assets/location.png" alt="">
-                        Офлайн
+                        {{ t('dashboard.nextLesson.offline') }}
                     </span>
-                    <span class="lesson-room">Кабинет {{ nextLesson.room }}</span>
+                    <span class="lesson-room">{{ t('dashboard.nextLesson.room', { room: nextLesson.room }) }}</span>
                 </div>
 
                 <div class="lesson-schedule">
@@ -33,29 +33,29 @@
                 </div>
 
                 <button class="btn-open">
-                    Открыть расписание
+                    {{ t('dashboard.nextLesson.openSchedule') }}
                     <span>→</span>
                 </button>
             </div>
 
             <div class="today-card">
-                <h2>Сегодня</h2>
+                <h2>{{ t('dashboard.today.title') }}</h2>
 
                 <div class="today-item">
                     <div class="today-icon icon-blue"><img src="../assets/grid.png" alt="grid"></div>
                     <div class="today-text">
-                        <span class="today-label">Занятия</span>
-                        <span class="today-value">{{ today_data.lessons.title }}</span>
-                        <span class="today-sub">{{ today_data.lessons.sub }}</span>
+                        <span class="today-label">{{ t('dashboard.today.lessons') }}</span>
+                        <span class="today-value">{{ t('dashboard.today.noLessons') }}</span>
+                        <span class="today-sub">{{ t('dashboard.today.scheduleEmpty') }}</span>
                     </div>
                 </div>
 
                 <div class="today-item">
                     <div class="today-icon icon-orange"><img src="../assets/clipboard-tick.png" alt=""></div>
                     <div class="today-text">
-                        <span class="today-label">Домашние задания</span>
-                        <span class="today-value is-empty">{{ today_data.homework.title }}</span>
-                        <span class="today-sub">{{ today_data.homework.sub }}</span>
+                        <span class="today-label">{{ t('dashboard.today.homework') }}</span>
+                        <span class="today-value is-empty">{{ t('dashboard.today.queueEmpty') }}</span>
+                        <span class="today-sub">{{ t('dashboard.today.noNewSubmissions') }}</span>
                     </div>
                     <span class="today-arrow">→</span>
                 </div>
@@ -63,8 +63,8 @@
                 <div class="today-item">
                     <div class="today-icon icon-green"><img src="../assets/profile-2user.png" alt=""></div>
                     <div class="today-text">
-                        <span class="today-label">Группы</span>
-                        <span class="today-value">{{ today_data.groups.title }}</span>
+                        <span class="today-label">{{ t('dashboard.today.groups') }}</span>
+                        <span class="today-value">{{ t('dashboard.today.groupsCount', groupsCount) }}</span>
                     </div>
                     <span class="today-arrow">→</span>
                 </div>
@@ -72,8 +72,8 @@
                 <div class="today-item">
                     <div class="today-icon icon-purple"><img src="../assets/enhance-prize.png" alt=""></div>
                     <div class="today-text">
-                        <span class="today-label">Студенты</span>
-                        <span class="today-value">{{ today_data.students.title }}</span>
+                        <span class="today-label">{{ t('dashboard.today.students') }}</span>
+                        <span class="today-value">{{ t('dashboard.today.studentsCount', studentsCount) }}</span>
                     </div>
                     <span class="today-arrow">→</span>
                 </div>
@@ -91,30 +91,30 @@
         </div>
 
         <div class="groups-header">
-            <h2>Мои группы</h2>
-            <a href="#" class="all-groups">Все группы</a>
+            <h2>{{ t('dashboard.myGroups') }}</h2>
+            <a href="#" class="all-groups">{{ t('dashboard.allGroups') }}</a>
         </div>
 
         <div class="group-card" v-for="group in groups" :key="group.id">
             <div class="group-top">
                 <div class="group-title-row">
                     <span class="group-title">{{ group.name }}</span>
-                    <span class="badge-next">Следующий урок</span>
+                    <span class="badge-next">{{ t('dashboard.group.nextLesson') }}</span>
                 </div>
                 <span class="badge-offline light">{{ group.mode }}</span>
             </div>
             <p class="group-desc">{{ group.description }}</p>
             <div class="group-info-row">
                 <div class="group-info-box">
-                    <span class="group-info-label">Расписание</span>
+                    <span class="group-info-label">{{ t('dashboard.group.schedule') }}</span>
                     <span class="group-info-value">{{ group.schedule }}</span>
                 </div>
                 <div class="group-info-box">
-                    <span class="group-info-label">Филиал</span>
+                    <span class="group-info-label">{{ t('dashboard.group.branch') }}</span>
                     <span class="group-info-value">{{ group.branch }}</span>
                 </div>
                 <div class="group-info-box">
-                    <span class="group-info-label">Студенты</span>
+                    <span class="group-info-label">{{ t('dashboard.group.students') }}</span>
                     <span class="group-info-value">{{ group.studentsCount }}</span>
                 </div>
             </div>
@@ -123,46 +123,52 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 const user = { name: 'Talgat' }
+// NOTE: this stays as a plain string in the source data. For a fully
+// localized date, format it with `new Intl.DateTimeFormat(locale.value, {...})`
+// on a real Date object instead of a hardcoded string.
 const today = 'Вторник, 15 сентября'
 
 const nextLesson = {
     day: 'Ср',
     start: '18:00',
     end: '19:30',
+    // Course/topic names are data, not UI chrome, so they aren't translated here.
     topic: 'Словари и кортежи · Python + SQL + Django REST Framework',
     room: 4,
     weekday: 'Среда'
 }
 
-const today_data = {
-    lessons: { title: 'Нет занятий', sub: 'На сегодня в расписании пусто' },
-    homework: { title: 'Очередь пуста', sub: 'новых сдач нет' },
-    groups: { title: '1 группа' },
-    students: { title: '2 студента' }
-}
+// Raw counts used to drive the i18n plural strings above.
+const groupsCount = { count: 1 }
+const studentsCount = { count: 2 }
 
 import Grid from '../assets/grid.png'
 import Tick from '../assets/clipboard-tick.png'
 import Base from '../assets/book-open.png'
 import Profile from '../assets/profile-2user.png'
 
-const quickLinks = [
-    { id: 1, icon: Grid, title: 'Расписание', sub: 'Неделя и посещаемость' },
-    { id: 2, icon: Tick, title: 'Домашние задания', sub: 'Создать и проверить' },
-    { id: 3, icon: Profile, title: 'Студенты', sub: 'Список и новые аккаунты' },
-    { id: 4, icon: Base, title: 'Курсы', sub: 'Программа и публикация' }
-]
+const quickLinks = computed(() => [
+    { id: 1, icon: Grid, title: t('dashboard.quickLinks.schedule.title'), sub: t('dashboard.quickLinks.schedule.sub') },
+    { id: 2, icon: Tick, title: t('dashboard.quickLinks.homework.title'), sub: t('dashboard.quickLinks.homework.sub') },
+    { id: 3, icon: Profile, title: t('dashboard.quickLinks.students.title'), sub: t('dashboard.quickLinks.students.sub') },
+    { id: 4, icon: Base, title: t('dashboard.quickLinks.courses.title'), sub: t('dashboard.quickLinks.courses.sub') }
+])
 
 const groups = [
     {
         id: 1,
-        name: 'Группа',
-        mode: 'Офлайн',
+        name: t('dashboard.nextLesson.group'),
+        mode: t('dashboard.nextLesson.offline'),
         description: 'Python + SQL + Django REST Framework · BACK-END · PYTHON / DJANGO',
         schedule: 'Ср, 18:00',
         branch: 'Кабинет 4',
-        studentsCount: '2 студента'
+        studentsCount: '2'
     }
 ]
 </script>

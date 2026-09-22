@@ -13,13 +13,23 @@
             <h1>KnewIT</h1>
             <div class="link">
                 <router-link to="/user">
-                    <img src="../assets/profile.png" class="profile" alt="profile">
+                    <img src="../assets/profile.png" class="profile" :alt="t('sidebar.links.yourProfile')">
                 </router-link>
             </div>
         </div>
+        <div class="lang-switch">
+            <button
+                v-for="l in supportedLocales"
+                :key="l.code"
+                :class="{ active: locale === l.code }"
+                @click="setLocale(l.code)"
+            >
+                {{ l.code.toUpperCase() }}
+            </button>
+        </div>
         <div class="sidebar-icons">
             <div class="icons">
-                <span>S E L L</span>
+                <span>{{ t('sidebar.sections.sell') }}</span>
                 <div
                     class="icons-box"
                     v-for="icon in sell"
@@ -28,13 +38,13 @@
                     @click="setActive(icon.name)"
                 >
                     <div class="icon-wrap">
-                        <img :src="icon.icon" :alt="icon.name">
+                        <img :src="icon.icon" :alt="icon.label">
                     </div>
-                    <p>{{ icon.name }}</p>
+                    <p>{{ icon.label }}</p>
                 </div>
             </div>
             <div class="icons">
-                <span>S E R V E</span>
+                <span>{{ t('sidebar.sections.serve') }}</span>
                 <div
                     class="icons-box"
                     v-for="icon in serve"
@@ -43,13 +53,13 @@
                     @click="setActive(icon.name)"
                 >
                     <div class="icon-wrap">
-                        <img :src="icon.icon" :alt="icon.name">
+                        <img :src="icon.icon" :alt="icon.label">
                     </div>
-                    <p>{{ icon.name }}</p>
+                    <p>{{ icon.label }}</p>
                 </div>
             </div>
             <div class="icons">
-                <span>B I L L</span>
+                <span>{{ t('sidebar.sections.bill') }}</span>
                 <div
                     class="icons-box"
                     v-for="icon in bill"
@@ -58,13 +68,13 @@
                     @click="setActive(icon.name)"
                 >
                     <div class="icon-wrap">
-                        <img :src="icon.icon" :alt="icon.name">
+                        <img :src="icon.icon" :alt="icon.label">
                     </div>
-                    <p>{{ icon.name }}</p>
+                    <p>{{ icon.label }}</p>
                 </div>
             </div>
             <div class="icons">
-                <span>R U N</span>
+                <span>{{ t('sidebar.sections.run') }}</span>
                 <div
                     class="icons-box"
                     v-for="icon in run"
@@ -73,17 +83,17 @@
                     @click="setActive(icon.name)"
                 >
                     <div class="icon-wrap">
-                        <img :src="icon.icon" :alt="icon.name">
+                        <img :src="icon.icon" :alt="icon.label">
                     </div>
-                    <p>{{ icon.name }}</p>
+                    <p>{{ icon.label }}</p>
                 </div>
             </div>
             <div class="border"></div>
             <div class="icons-box" v-for="link in links" :key="link.id">
                 <div class="icon-wrap">
-                    <img :src="link.image" :alt="link.name">
+                    <img :src="link.image" :alt="link.label">
                 </div>
-                <p>{{ link.name }}</p>
+                <p>{{ link.label }}</p>
             </div>
         </div>
     </aside>
@@ -127,6 +137,29 @@
         font-size: 11px;
         letter-spacing: 1px;
         color: #9a9a9a;
+        text-transform: uppercase;
+    }
+    .lang-switch {
+        display: flex;
+        gap: 6px;
+    }
+
+    .lang-switch button {
+        flex: 1;
+        border: 1px solid #ebebf0;
+        background-color: #fff;
+        color: #4a4a55;
+        border-radius: 8px;
+        padding: 6px 0;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .lang-switch button.active {
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: #ffffff;
     }
     .icons {
         display: flex;
@@ -243,8 +276,8 @@
 </style>
 
 <script setup>
-import { ref } from 'vue';
-
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Sun from '../assets/sun.png';
 import Grid from '../assets/grid.png';
 import Ai from '../assets/ai-ac.png';
@@ -264,39 +297,44 @@ import Notifications from '../assets/notification.png'
 import Your from '../assets/profile.png'
 import Search from '../assets/search.png'
 
+const { t, locale } = useI18n({ useScope: 'global' })
 const isOpen = ref(false);
-const activeItem = ref('Contacts');
+const activeItem = ref('contacts');
 function setActive(name) {
     activeItem.value = name;
     isOpen.value = false;
 }
 
-const sell = [
-    { id: 1, icon: Sun, name: 'Today' },
-    { id: 2, icon: Grid, name: 'Grid' },
-    { id: 3, icon: Ai, name: 'Leads' },
-    { id: 4, icon: Building, name: 'Accounts' },
-    { id: 5, icon: Profile, name: 'Contacts' },
-    { id: 6, icon: Goals, name: 'Goals' }
-]
-const serve = [
-    { id: 1, icon: Tick, name: 'Tasks' },
-    { id: 2, icon: Tickets, name: 'Tickets' },
-    { id: 3, icon: Base, name: 'Knowledge base' },
-    { id: 4, icon: Documents, name: 'Documents' },
-]
-const bill = [
-    { id: 1, icon: Invoices, name: 'Invoices' },
-    { id: 2, icon: Timesheet, name: 'Timesheet' },
-]
-const run = [
-    { id: 1, icon: Team, name: 'Team and access' },
-    { id: 2, icon: Settings, name: 'Settings' },
-]
-const links = [
-    { id: 1, image: Search, name: 'Search' },
-    { id: 2, image: Notifications, name: 'Notification' },
-    { id: 3, image: Your, name: 'Your profile' },
-    { id: 4, image: Help, name: 'Help' }
-]
+function changeLanguage(code) {
+    locale.value = code;
+}
+
+const sell = computed(() => [
+    { id: 1, icon: Sun, name: 'today', label: t('sidebar.sell.today') },
+    { id: 2, icon: Grid, name: 'grid', label: t('sidebar.sell.grid') },
+    { id: 3, icon: Ai, name: 'leads', label: t('sidebar.sell.leads') },
+    { id: 4, icon: Building, name: 'accounts', label: t('sidebar.sell.accounts') },
+    { id: 5, icon: Profile, name: 'contacts', label: t('sidebar.sell.contacts') },
+    { id: 6, icon: Goals, name: 'goals', label: t('sidebar.sell.goals') }
+])
+const serve = computed(() => [
+    { id: 1, icon: Tick, name: 'tasks', label: t('sidebar.serve.tasks') },
+    { id: 2, icon: Tickets, name: 'tickets', label: t('sidebar.serve.tickets') },
+    { id: 3, icon: Base, name: 'knowledgeBase', label: t('sidebar.serve.knowledgeBase') },
+    { id: 4, icon: Documents, name: 'documents', label: t('sidebar.serve.documents') },
+])
+const bill = computed(() => [
+    { id: 1, icon: Invoices, name: 'invoices', label: t('sidebar.bill.invoices') },
+    { id: 2, icon: Timesheet, name: 'timesheet', label: t('sidebar.bill.timesheet') },
+])
+const run = computed(() => [
+    { id: 1, icon: Team, name: 'teamAccess', label: t('sidebar.run.teamAccess') },
+    { id: 2, icon: Settings, name: 'settings', label: t('sidebar.run.settings') },
+])
+const links = computed(() => [
+    { id: 1, image: Search, name: 'search', label: t('sidebar.links.search') },
+    { id: 2, image: Notifications, name: 'notification', label: t('sidebar.links.notification') },
+    { id: 3, image: Your, name: 'yourProfile', label: t('sidebar.links.yourProfile') },
+    { id: 4, image: Help, name: 'help', label: t('sidebar.links.help') }
+])
 </script>
