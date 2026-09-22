@@ -1,9 +1,12 @@
 <template>
     <aside>
         <div class="sidebar-top">
-            <div class="logo">
-                <span class="logo-black">Knew</span><span class="logo-purple">IT</span>
-            </div>
+            <div class="intro">
+                <div class="logo">
+                    <span class="logo-black">Knew</span><span class="logo-purple">IT</span>
+                </div>
+                
+            </div>    
             <button class="menu-toggle" @click="menuOpen = !menuOpen">
                 <span></span>
                 <span></span>

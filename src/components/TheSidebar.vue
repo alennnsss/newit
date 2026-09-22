@@ -1,9 +1,21 @@
-
 <template>
-    <aside>
+    <button class="menu-toggle" v-if="!isOpen" @click="isOpen = true">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <div class="overlay" v-if="isOpen" @click="isOpen = false"></div>
+
+    <aside :class="{ open: isOpen }">
         <div class="sidebar-article">
             <img class="sidebar-image" src="../assets/knewit1.png" alt="K image">
             <h1>KnewIT</h1>
+            <div class="link">
+                <router-link to="/user">
+                    <img src="../assets/profile.png" class="profile" alt="profile">
+                </router-link>
+            </div>
         </div>
         <div class="sidebar-icons">
             <div class="icons">
@@ -90,6 +102,7 @@
     }
     .sidebar-article {
         display: flex;
+        align-items: center;
         gap: 10px;
     }
     h1 {
@@ -128,7 +141,6 @@
         cursor: pointer;
         padding: 6px 8px;
         border-radius: 8px;
-        transition: background-color 0.15s ease, color 0.15s ease;
     }
     .icons-box:hover {
         background-color: #f2f2f5;
@@ -149,7 +161,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background-color 0.15s ease;
     }
     .icon-wrap img {
         width: 15px;
@@ -160,12 +171,74 @@
         background-color: #c3c3ce;
     }
     .icons-box.active .icon-wrap {
-        background-color: rgba(255, 255, 255, 0.25); 
+        background-color: rgba(255, 255, 255, 0.25);
     }
-
     .border {
         border-bottom: 1px solid #e5e5e5;
         margin: 4px 0;
+    }
+    .profile {
+        width: 30px;
+        height: 30px;
+        margin-top: 5px;
+        margin-left: 15px;
+    }
+    a {
+        text-decoration: none;
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 8px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        cursor: pointer;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 1100;
+    }
+    .menu-toggle span {
+        width: 20px;
+        height: 2px;
+        background-color: #4a4a4a;
+        margin: 0 auto;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+    }
+
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: flex;
+        }
+        .overlay {
+            display: block;
+        }
+        aside {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 240px;
+            transform: translateX(-100%);
+            z-index: 1050;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+        }
+        aside.open {
+            transform: translateX(0);
+        }
     }
 </style>
 
@@ -191,9 +264,11 @@ import Notifications from '../assets/notification.png'
 import Your from '../assets/profile.png'
 import Search from '../assets/search.png'
 
+const isOpen = ref(false);
 const activeItem = ref('Contacts');
 function setActive(name) {
     activeItem.value = name;
+    isOpen.value = false;
 }
 
 const sell = [

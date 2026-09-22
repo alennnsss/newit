@@ -3,7 +3,7 @@
         <TheSidebar />
         <TheAdmin />
     </div>
-    
+
 </template>
 
 <script setup>
@@ -15,6 +15,7 @@ import TheAdmin from '../components/TheAdmin.vue';
     .container {
         background-color: #d1d5e27b;
         display: flex;
-
+        width: 100%;
+        min-height: 100vh;
     }
 </style>
