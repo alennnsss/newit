@@ -11,11 +11,6 @@
         <div class="sidebar-article">
             <img class="sidebar-image" src="../assets/knewit1.png" alt="K image">
             <h1>KnewIT</h1>
-            <div class="link">
-                <router-link to="/user">
-                    <img src="../assets/profile.png" class="profile" :alt="t('sidebar.links.yourProfile')">
-                </router-link>
-            </div>
         </div>
         <div class="lang-switch">
             <button
@@ -27,6 +22,16 @@
                 {{ l.code.toUpperCase() }}
             </button>
         </div>
+        <router-link to="/user">
+            <div class="profile-card">
+                <div class="avatar">T</div>
+                <div>
+                    <div class="profile-name">Talgat</div>
+                    <div class="profile-name">Baytukeshov</div>
+                    <div class="profile-role">{{ t('teacherSidebar.role') }}</div>
+                </div>
+            </div>
+        </router-link>    
         <div class="sidebar-icons">
             <div class="icons">
                 <span>{{ t('sidebar.sections.sell') }}</span>

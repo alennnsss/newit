@@ -14,3 +14,37 @@
     --accent-bg: #f1eefc;
   
 }
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--accent-bg);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.2;
+}
+
+.profile-role {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}

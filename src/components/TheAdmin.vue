@@ -7,7 +7,7 @@
                     <span>{{ t('contacts.peopleCount', { count: contacts.length }) }}</span>
                 </div>
                 <div class="search-input">
-                    <input type="text" :placeholder="t('contacts.searchPlaceholder')" class='input'>
+                    <input v-model="nameContact" type="text" :placeholder="t('contacts.searchPlaceholder')" class='input'>
                     <button class="button">
                         <img src="../assets/search.png" :alt="t('sidebar.links.search')" class="search-image">
                     </button>
@@ -32,80 +32,81 @@
             </div>
         </div>
        <div class="contacts-page">
-    <div class="table-wrapper">
-        <table class="contacts-table">
-            <thead>
-              <tr>
-                <th>{{ t('contacts.table.name') }}</th>
-                <th class="hide-sm">{{ t('contacts.table.account') }}</th>
-                <th class="hide-sm">{{ t('contacts.table.reachableOn') }}</th>
-                <th class="hide-md">{{ t('contacts.table.email') }}</th>
-                <th class="hide-md">{{ t('contacts.table.owner') }}</th>
-                <th class="hide-md">{{ t('contacts.table.updated') }}</th>
-              </tr>
-            </thead>
-
-            <tbody>
-                <tr v-for="contact in contacts" :key="contact.id">
-                    <td>
-                        <div class="name-cell">
-                            <div class="avatar" :style="{ backgroundColor: avatarColor(contact.name) }">
-                              {{ initials(contact.name) }}
-                            </div>
-
-                            <div>
-                                <div class="contact-name">
-                                {{ contact.name }}
-                            </div>
-
-                            <div class="contact-title" v-if="contact.title">
-                                {{ contact.title }}
-                            </div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td class="muted hide-sm">
-                      {{ contact.account }}
-                    </td>
-
-                    <td class="hide-sm">
-                        <span v-if="contact.phone" class="phone">
-                            {{ contact.phone }}
-                        </span>
-
-                        <span v-else class="muted">
-                            {{ t('contacts.noPhone') }}
-                        </span>
-                    </td>
-
-                    <td class="hide-md">
-                        <span v-if="contact.email" class="email">
-                            {{ contact.email }}
-                        </span>
-
-                        <span v-else class="muted">
-                            {{ t('contacts.noEmail') }}
-                        </span>
-                    </td>
-
-                    <td class="hide-md">
-                        <span v-if="contact.owner === 'Unassigned'" class="badge-warning">
-                            {{ t('contacts.unassigned') }}
-                        </span>
-                        <span v-else>
-                            {{ contact.owner }}
-                        </span>
-                    </td>
-
-                    <td class="updated muted hide-md">
-                      {{ contact.updated }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-    </div>
+            <div class="table-wrapper">
+                <table class="contacts-table">
+                    <thead>
+                      <tr>
+                        <th>{{ t('contacts.table.name') }}</th>
+                        <th class="hide-sm">{{ t('contacts.table.account') }}</th>
+                        <th class="hide-sm">{{ t('contacts.table.reachableOn') }}</th>
+                        <th class="hide-md">{{ t('contacts.table.email') }}</th>
+                        <th class="hide-md">{{ t('contacts.table.owner') }}</th>
+                        <th class="hide-md">{{ t('contacts.table.updated') }}</th>
+                      </tr>
+                    </thead>
+                
+                    <tbody>
+                        <tr v-for="contact in filteredContacts" :key="contact.id">
+                            <td>
+                                <div class="name-cell">
+                                    <div class="avatar" :style="{ backgroundColor: avatarColor(contact.name) }">
+                                      {{ initials(contact.name) }}
+                                    </div>
+                                
+                                    <div>
+                                        <div class="contact-name">
+                                        {{ contact.name }}
+                                    </div>
+                                
+                                    <div class="contact-title" v-if="contact.title">
+                                        {{ contact.title }}
+                                    </div>
+                                </div>
+                              </div>
+                            </td>
+                        
+                            <td class="muted hide-sm">
+                              {{ contact.account }}
+                            </td>
+                        
+                            <td class="hide-sm">
+                                <span v-if="contact.phone" class="phone">
+                                    {{ contact.phone }}
+                                </span>
+                            
+                                <span v-else class="muted">
+                                    {{ t('contacts.noPhone') }}
+                                </span>
+                            </td>
+                        
+                            <td class="hide-md">
+                                <span v-if="contact.email" class="email">
+                                    {{ contact.email }}
+                                </span>
+                            
+                                <span v-else class="muted">
+                                    {{ t('contacts.noEmail') }}
+                                </span>
+                            </td>
+                        
+                            <td class="hide-md">
+                                <span v-if="contact.owner === 'Unassigned'" class="badge-warning">
+                                    {{ t('contacts.unassigned') }}
+                                </span>
+                                <span v-else>
+                                    {{ contact.owner }}
+                                </span>
+                            </td>
+                        
+                            <td class="updated muted hide-md">
+                              {{ contact.updated }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>    
     <div class="showing">
         <span>{{ t('contacts.showing', { shown: contacts.length, total: contacts.length }) }}</span>
     </div>
@@ -118,7 +119,7 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-
+const nameContact = ref('')
 const selectedStatus = ref(null)
 
 const status = computed(() => [
@@ -132,8 +133,22 @@ const contacts = [
         account: 'Talgat123',
         owner: 'Unassigned',
         updated: '8 days ago'
+    }, 
+    {
+        id: 2,
+        name: 'Alen',
+        account: 'Alens342',
+        owner: 'Unassigned',
+        updated: '1 month ago'
     }
 ]
+const filteredContacts = computed(() => {
+    const query = nameContact.value.trim().toLowerCase()
+    if (!query) return contacts
+    return contacts.filter((contact) =>
+        contact.name.toLowerCase().includes(query)
+    )
+})
 
 function initials(name) {
     if (!name) return '?';
@@ -181,6 +196,7 @@ function avatarColor(name) {
         cursor: pointer;
         border: none;
         background: transparent;
+        margin-top: 8px;
     }
     .button-box {
         display: flex;
@@ -373,8 +389,10 @@ function avatarColor(name) {
         .inactive {
             flex: 1;
         }
-        .hide-md {
-            display: none;
+        
+        .contacts-page {
+            display: flex;
+            flex-direction: column;
         }
     }
 
@@ -389,9 +407,7 @@ function avatarColor(name) {
             padding: 10px;
             border-radius: 12px;
         }
-        .hide-sm {
-            display: none;
-        }
+        
         .name-cell {
             gap: 8px;
         }
