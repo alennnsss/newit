@@ -399,6 +399,11 @@ async function submitContact() {
         color: #4a4a4a;
         white-space: nowrap;
     }
+    .today-arrow {
+        color: var(--text-muted);
+        cursor: pointer;
+        height: 10px;
+    }
     .contact {
         height: 36px;
         padding: 0 16px;

@@ -129,22 +129,17 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const user = { name: 'Talgat' }
-// NOTE: this stays as a plain string in the source data. For a fully
-// localized date, format it with `new Intl.DateTimeFormat(locale.value, {...})`
-// on a real Date object instead of a hardcoded string.
 const today = 'Вторник, 15 сентября'
 
 const nextLesson = {
     day: 'Ср',
     start: '18:00',
     end: '19:30',
-    // Course/topic names are data, not UI chrome, so they aren't translated here.
     topic: 'Словари и кортежи · Python + SQL + Django REST Framework',
     room: 4,
     weekday: 'Среда'
 }
 
-// Raw counts used to drive the i18n plural strings above.
 const groupsCount = { count: 1 }
 const studentsCount = { count: 2 }
 

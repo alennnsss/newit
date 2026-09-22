@@ -1,4 +1,5 @@
 <template>
+    
     <button class="menu-toggle" v-if="!isOpen" @click="isOpen = true">
         <span></span>
         <span></span>
@@ -8,7 +9,11 @@
     <div class="overlay" v-if="isOpen" @click="isOpen = false"></div>
 
     <aside :class="{ open: isOpen }">
+        
         <div class="sidebar-article">
+            <router-link to="/user">
+                <span class="today-arrow">←</span>
+            </router-link>
             <img class="sidebar-image" src="../assets/knewit1.png" alt="K image">
             <h1>KnewIT</h1>
         </div>
@@ -22,16 +27,6 @@
                 {{ l.code.toUpperCase() }}
             </button>
         </div>
-        <router-link to="/user">
-            <div class="profile-card">
-                <div class="avatar">T</div>
-                <div>
-                    <div class="profile-name">Talgat</div>
-                    <div class="profile-name">Baytukeshov</div>
-                    <div class="profile-role">{{ t('teacherSidebar.role') }}</div>
-                </div>
-            </div>
-        </router-link>    
         <div class="sidebar-icons">
             <div class="icons">
                 <span>{{ t('sidebar.sections.sell') }}</span>
@@ -100,6 +95,12 @@
                 </div>
                 <p>{{ link.label }}</p>
             </div>
+            <router-link to="/user" class="profile">
+                <div class="icon-wrap">
+                    <img src="../assets/profile.png" alt="profile">
+                </div>
+                <p>{{ t('sidebar.links.yourProfile') }}</p>
+            </router-link>    
         </div>
     </aside>
 </template>
@@ -136,6 +137,10 @@
         margin-left: -7px;
         border-radius: 8px;
         height: 36px;
+    }
+    .today-arrow {
+        color: var(--text-muted);
+        cursor: pointer;
     }
     span {
         font-weight: 600;
@@ -216,10 +221,24 @@
         margin: 4px 0;
     }
     .profile {
-        width: 30px;
+        display: flex;
+        gap: 10px;
         height: 30px;
         margin-top: 5px;
-        margin-left: 15px;
+        margin-left: 8px;
+        font-size: 12px;
+        text-decoration: none;
+    }
+    .profile:hover {
+        background-color: #f2f2f5;
+    }
+    .profile.active {
+        background-color: #4d4dff;
+        color: #ffffff;
+    }
+    .profile p {
+        color: black;
+        margin-top: 6px;
     }
     a {
         text-decoration: none;
@@ -248,7 +267,7 @@
         background-color: #4a4a4a;
         margin: 0 auto;
     }
-
+    
     .overlay {
         display: none;
         position: fixed;
@@ -299,7 +318,6 @@ import Team from '../assets/user-search.png';
 import Settings from '../assets/settings.png';
 import Help from '../assets/help.png';
 import Notifications from '../assets/notification.png'
-import Your from '../assets/profile.png'
 import Search from '../assets/search.png'
 
 const { t, locale } = useI18n({ useScope: 'global' })
@@ -339,7 +357,6 @@ const run = computed(() => [
 const links = computed(() => [
     { id: 1, image: Search, name: 'search', label: t('sidebar.links.search') },
     { id: 2, image: Notifications, name: 'notification', label: t('sidebar.links.notification') },
-    { id: 3, image: Your, name: 'yourProfile', label: t('sidebar.links.yourProfile') },
-    { id: 4, image: Help, name: 'help', label: t('sidebar.links.help') }
+    { id: 3, image: Help, name: 'help', label: t('sidebar.links.help') }
 ])
 </script>
