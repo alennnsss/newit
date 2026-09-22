@@ -6,9 +6,10 @@ import router from './router/router.js'
 import i18n from './locales/i18n.js';
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
-
+import { createPinia } from 'pinia';
 const app = createApp(App)
 
+app.use(createPinia())
 app.use(router)
 
 app.use(PrimeVue, {
